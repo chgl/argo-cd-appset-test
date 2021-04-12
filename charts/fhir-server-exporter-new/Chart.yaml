@@ -1,0 +1,7 @@
+apiVersion: v2
+name: appset-test
+version: 0.1.0
+dependencies:
+  - name: fhir-server-exporter
+    version: 0.1.2
+    repository: https://chgl.github.io/charts
