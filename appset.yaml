@@ -25,3 +25,31 @@ spec:
       destination:
         server: "https://kubernetes.default.svc" # 'server' field of the secret
         namespace: "production"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: test-staging
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/chgl/argo-cd-appset-test.git
+        revision: "staging"
+        directories:
+          - path: charts/*
+  template:
+    metadata:
+      name: "{{path.basename}}-staging"
+    spec:
+      project: "default"
+      source:
+        repoURL: https://github.com/chgl/argo-cd-appset-test.git
+        targetRevision: "staging"
+        path: "{{path}}"
+        helm:
+          valueFiles:
+            - values.yaml
+            - "values-staging.yaml"
+      destination:
+        server: "https://kubernetes.default.svc" # 'server' field of the secret
+        namespace: "staging"
